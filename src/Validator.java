@@ -8,25 +8,22 @@ public class Validator {
         try {
             check(login, password, confirmPassword);
             return true;
-        } catch (WrongPasswordExeption|WrongLoginExeption e) {
+        } catch (WrongPasswordExeption | WrongLoginExeption e) {
             System.out.println(e.getMessage());
             return false;
         }
     }
 
-    private static void check(String login, String passvord, String confirmPassword) throws WrongPasswordExeption, WrongLoginExeption {
-        if (login == null || login.isEmpty() || login.length() >= 20) {
-            throw new WrongLoginExeption("Длина логина должна быть больше,либо равнв 20");
+    private static void check(String login, String password, String confirmPassword) throws WrongPasswordExeption, WrongLoginExeption {
+        if (!login.matches("^\\w{1,20}$")) {
+            throw new WrongLoginExeption("Логин должен содержать только буквы " + "латинского алфавита,цифры или знак" + " подчеркивания");
         }
-        if (passvord == null || passvord.isEmpty() || passvord.length() >= 20) {
-            throw new WrongPasswordExeption("Длина логина должна быть меньше20");
+        if (!password.matches("^\\w{1,20}$")) {
+            throw new WrongPasswordExeption("Пароль должен содержать только буквы латинского алфавита,цифры или" +
+                    " знак подчеркивания");
         }
-        if (Objects.equals(passvord, confirmPassword)) {
-            throw new WrongPasswordExeption("Пароли должны совпадать");
+            if (!Objects.equals(password, confirmPassword)) {
+                throw new WrongPasswordExeption("Пароли должны совпадать");
+            }
         }
-
-        Cheker cheker = new LoopCheker();
-        cheker.check(login, true);
-        cheker.check(passvord, false);
     }
-}
